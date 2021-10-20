@@ -15,17 +15,19 @@ public with sharing class VehicleDataFactory {
     public static List<Vehicle__c> createVehiclesWithTelemetry(Integer numberOfVehicles, Integer telemetryPerVeh){
 
         List<Vehicle__c> vehicleList = new List<Vehicle__c>();
-
         for(Integer i = 0; i < numberOfVehicles; i ++){
-            Vehicle__c vehicle = new Vehicle__c(Brand__c='TestBrand' +i, Model__c = 'TestModel' +i, Vin__c = 'WBSEH935X7B768961');
-            insert vehicle;
-
-            for( Integer j =0 ; j < telemetryPerVeh; j++){
-                Telemetry__c tele = new Telemetry__c(Vehicle__c = vehicle.id);
-                insert tele;
-            }
-            vehicleList.add(vehicle);
+            vehicleList.add(new Vehicle__c(Brand__c='TestBrand' +i, Model__c = 'TestModel' +i, Vin__c = 'TestVIN'+i ));            
         }
+        insert vehicleList;
+
+        List<Telemetry__c> telemetryList = new List<Telemetry__c>();
+        for(Vehicle__c vehicle : vehicleList){
+            for( Integer i =0 ; i < telemetryPerVeh; i++){
+                telemetryList.add(new Telemetry__c(Vehicle__c = vehicle.id));    
+            }
+        }
+        insert telemetryList;
+        
         return vehicleList;
     }
 }
