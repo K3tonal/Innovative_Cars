@@ -63,7 +63,27 @@ public with sharing class CarOfferTest {
             System.assert(False, 'No exception');
        } catch (Exception ex) {
             System.assert(ex.getMessage().contains('Vehicle is already available in'));
-       }     
-       
-   }
+       } 
+    }
+     /** * @author name <wojciech.krasowski@accenture.com> * @date 18/10/2021 * 
+     * *  @description Test method for creating  2 virtual Car_Offer 
+     * *  for vehicle to test if future method was invoked.
+     * *  @Task: POX-1 
+     * *  @param 
+     * */
+    @isTest
+    static void testEmailSending(){
+        List<Dealership__c> dealerships = CarOfferDataFactory.createDealersWithAccount(2);
+        insert dealerships;
+        Vehicle__c vehicle = new Vehicle__c(Brand__c='Test Vehicle', Model__c = 'Test Model', Vin__c = 'TestVIN');
+        insert vehicle;
+        List<Car_Offer__c> carOffers = new List<Car_Offer__c> {
+            new Car_Offer__c(Vehicle__c = vehicle.Id, Dealership__c = dealerships.get(0).Id, Offer_Type__c = 'virtual'),
+            new Car_Offer__c(Vehicle__c = vehicle.Id, Dealership__c = dealerships.get(1).Id, Offer_Type__c = 'virtual')
+            
+        };        
+        
+        insert carOffers;        
+        system.assertEquals(1, Limits.getFutureCalls());
+    }
 }
