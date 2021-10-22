@@ -12,7 +12,7 @@ public with sharing class ClearTelemetryData implements Database.Batchable<SObje
      * */
     public Database.QueryLocator start(Database.BatchableContext bc){
         
-        String querry = 'SELECT Id, CreatedDate, Manager_Notes__c FROM Telemetry__c WHERE CreatedDate != LAST_N_DAYS:1'; //todo: change for 30 days
+        String querry = 'SELECT Id, CreatedDate, Manager_Notes__c FROM Telemetry__c WHERE CreatedDate != LAST_N_DAYS:1';
         return Database.getQueryLocator(querry);
     }
 
