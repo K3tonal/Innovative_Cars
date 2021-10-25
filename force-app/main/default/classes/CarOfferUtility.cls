@@ -50,11 +50,9 @@ public with sharing class CarOfferUtility {
      * *  @Task: POX-1 
      * *  @param carOffersFromTrigger List of car offer from trigger
      * */
-    public void sendEmailConfirmation(List<Car_Offer__c> carOffersFromTrigger){
-        
-        Map<Id,Car_Offer__c> carOfferMap = new Map<Id,Car_Offer__c>([SELECT id FROM Car_Offer__c WHERE Id IN :carOffersFromTrigger]);       
-        List<Id> carOfferIds = new List<Id>(carOfferMap.keySet());
-        
+    public void sendEmailConfirmation(Map<Id,Car_Offer__c> carOffersFromTrigger){
+              
+        List<Id> carOfferIds = new List<Id>(carOffersFromTrigger.keySet());        
         sendEmail(carOfferIds);
     }
 
@@ -66,20 +64,24 @@ public with sharing class CarOfferUtility {
      * */
     @future
      public static void sendEmail(List<Id> carOffersId){
-        System.debug('$$$$$INSIDE METHOD TO SEND EMAIL');
         
         List<Car_Offer__c> carOffers = [SELECT Id, Name FROM Car_Offer__c WHERE Id IN: carOffersId];
         List<String> offerName = new List<String>();
         for(Car_Offer__c c: carOffers ){
             offerName.add(c.Name);
         }
-        System.debug('%%%%%%%%%%%%%%%%%%%%%%CAR OFFERS STRING:' +offerName);
+
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-        message.toAddresses = new String[] { 'jivepow140@forfity.com'};
-        message.subject = 'New Cars has been added';
-        message.plainTextBody = 'New Car Offers has been added: ' +offerName;
-        Messaging.SingleEmailMessage[] messages =   new List<Messaging.SingleEmailMessage> {message};
-        System.debug(' !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Messasge has been send Body :' + message.plaintextbody);
-        //Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);        
+        message.toAddresses = new String[] {'jivepow140@forfity.com'};
+        message.subject = System.label.NEW_CARS_HAS_BEEN_ADDED;
+        message.plainTextBody = System.label.NEW_CARS_HAS_BEEN_ADDED + ': ' + offerName;
+        Messaging.SingleEmailMessage[] messages =   new List<Messaging.SingleEmailMessage> {message};        
+
+        try{
+            Messaging.sendEmail(messages);
+    
+        } catch (EmailException ex){
+            System.debug(System.label.ENCOUNTERED_AN_ERROR + ex);
+        }             
      }
 }

@@ -11,7 +11,7 @@ trigger CarOfferTrigger on Car_Offer__c (before insert, before update, after ins
     } 
     else if(Trigger.isAfter) {
         if(Trigger.isInsert){            
-            carOfferUtil.sendEmailConfirmation(Trigger.new);
+            carOfferUtil.sendEmailConfirmation(Trigger.newMap);
         }
     }
 }

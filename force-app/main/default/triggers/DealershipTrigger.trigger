@@ -8,7 +8,8 @@ trigger DealershipTrigger on Dealership__c (after update) {
     
     if(Trigger.isAfter){
         if(Trigger.isUpdate){
-            dealerUtility.createCaseIfClosed(Trigger.new, Trigger.oldMap);
+            dealerUtility.createCaseIfClosed(Trigger.new, Trigger.oldMap);          
+
         }
     }
 
