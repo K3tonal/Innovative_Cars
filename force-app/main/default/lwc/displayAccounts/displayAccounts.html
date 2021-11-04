@@ -1,0 +1,28 @@
+<template>
+    <lightning-card>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered" border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Name</th>
+                    <th>Industry</th>
+                </tr>
+            </thead>
+            <template for:each={records} for:item="accItem">
+                <tr key={accItem.Id}>
+                    <td><lightning-input type="radio" name="radioButtonSelect" value={accItem.Id} onchange={handleChangeRadio}></lightning-input></td>
+                    <td>{accItem.Name}</td>
+                    <td>{accItem.Industry}</td>
+                </tr>
+            </template>
+        </table>
+        <div style="float: right;">
+            <button style="margin-right: 10px;" onclick={prevpage}>
+                <lightning-icon icon-name="utility:chevronleft" size="xx-small" onclick={prevpage}></lightning-icon>
+            </button>
+            <button>
+                <lightning-icon icon-name="utility:chevronright" size="xx-small" onclick={nextpage}></lightning-icon>
+            </button>
+        </div>
+    </lightning-card>
+</template>

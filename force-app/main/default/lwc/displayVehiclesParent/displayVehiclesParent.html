@@ -1,0 +1,28 @@
+<template>
+    <lightning-card>
+        <div class="slds-m-bottom--medium">
+            <c-display-dealers-parent onmydealerdemo={handleDealerChange}></c-display-dealers-parent> 
+        </div>
+        <br/>
+            Vehicles:
+            <table class= "slds-table slds-table_cell-buffer slds-table_bordered" border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Name</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                    </tr>
+                </thead> 
+                 <template for:each={records} for:item='dealItem'>
+                     <tr key={dealItem.Id}>
+                        <td><lightning-input type="radio" name="radioButtonSelect" value={dealItem.Id} onchange={handleChangeRadio}></lightning-input></td>
+                         <td>{dealItem.Name}</td>
+                         <td>{dealItem.Brand__c}</td>
+                         <td>{dealItem.Model__c}</td>
+                     </tr>
+                 </template>
+            </table>
+
+    </lightning-card>
+</template>

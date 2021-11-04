@@ -51,7 +51,7 @@ public with sharing class CarOfferUtility {
      * *  @param carOffersFromTrigger List of car offer from trigger
      * */
     public void sendEmailConfirmation(Map<Id,Car_Offer__c> carOffersFromTrigger){
-              
+                      
         List<Id> carOfferIds = new List<Id>(carOffersFromTrigger.keySet());        
         sendEmail(carOfferIds);
     }
