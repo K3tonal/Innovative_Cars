@@ -15,14 +15,13 @@ public with sharing class LwcVehicleDetailController {
     public static void addOrRemoveUserFromVehicleInterest(Boolean status, String vehicleId){
         
         if(vehicleId != null){
+            
             Id vehId = vehicleId;
-            String userId = UserInfo.getUserId();
-            User user = [Select Id, Name from User where Id =:userId];
-
-            Vehicle__c vehicle = [SELECT Id, Brand__c, Model__c, User_interested__c from Vehicle__c where Id=:vehId];
-
+            Vehicle__c vehicle = [SELECT Id from Vehicle__c where Id=:vehId];
+            
             if(status){
-                vehicle.User_interested__c = user.Id;                
+                String userId = UserInfo.getUserId();
+                vehicle.User_interested__c = userId;                
             } else {
                 vehicle.User_interested__c = null;
             }
